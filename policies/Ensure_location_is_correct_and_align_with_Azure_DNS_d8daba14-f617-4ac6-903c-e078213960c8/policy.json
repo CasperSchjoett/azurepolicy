@@ -1,0 +1,46 @@
+{
+ "properties": {
+  "displayName": "Ensure location is correct and align with Azure DNS",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "General",
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-09-29T06:40:51.7942783Z",
+   "updatedBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "updatedOn": "2021-09-29T07:21:18.1452307Z"
+  },
+  "parameters": {
+   "allowedLocations": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Allowed locations",
+     "description": "The list of allowed locations for resources.",
+     "strongType": "location"
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Network/virtualNetworks"
+     },
+     {
+      "not": {
+       "field": "location",
+       "in": "[parameters('allowedLocations')]"
+      }
+     }
+    ]
+   },
+   "then": {
+    "effect": "audit"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/d8daba14-f617-4ac6-903c-e078213960c8",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "d8daba14-f617-4ac6-903c-e078213960c8"
+}

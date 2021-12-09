@@ -1,0 +1,50 @@
+{
+ "properties": {
+  "displayName": "Audit DNS Settings",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-09-02T08:44:08.1960478Z",
+   "updatedBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "updatedOn": "2021-09-02T10:09:22.1584109Z"
+  },
+  "parameters": {
+   "dnsSettings": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "dnsSettings",
+     "description": "Audit for specific DNS settings."
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Network/virtualNetworks"
+     },
+     {
+      "anyOf": [
+       {
+        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(intersection(parameters('dnsSettings'), field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers'))), length(parameters('dnsSettings'))))]",
+        "equals": false
+       },
+       {
+        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')),length(parameters('dnsSettings'))))]",
+        "equals": false
+       }
+      ]
+     }
+    ]
+   },
+   "then": {
+    "effect": "audit"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/38525f3e-95b8-4a17-9ab0-df7b4b25bda9",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "38525f3e-95b8-4a17-9ab0-df7b4b25bda9"
+}

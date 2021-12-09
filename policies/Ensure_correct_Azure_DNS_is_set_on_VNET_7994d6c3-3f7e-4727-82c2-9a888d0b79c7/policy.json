@@ -1,0 +1,63 @@
+{
+ "properties": {
+  "displayName": "Ensure correct Azure DNS is set on VNET",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "Network",
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-09-29T06:31:30.1430141Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "dnsSettings": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "dnsSettings",
+     "description": "Audit for specific DNS settings."
+    }
+   },
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effects",
+     "description": "Enable or disable the execution of the Policy."
+    },
+    "allowedValues": [
+     "Audit",
+     "Disabled"
+    ],
+    "defaultValue": "Audit"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Network/virtualNetworks"
+     },
+     {
+      "anyOf": [
+       {
+        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(intersection(parameters('dnsSettings'), field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers'))), length(parameters('dnsSettings'))))]",
+        "equals": false
+       },
+       {
+        "value": "[if(empty(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')), bool('false'), equals(length(field('Microsoft.Network/virtualNetworks/dhcpOptions.dnsServers')),length(parameters('dnsSettings'))))]",
+        "equals": false
+       }
+      ]
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/7994d6c3-3f7e-4727-82c2-9a888d0b79c7",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "7994d6c3-3f7e-4727-82c2-9a888d0b79c7"
+}

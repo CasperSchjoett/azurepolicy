@@ -1,0 +1,72 @@
+{
+ "properties": {
+  "displayName": "Audit WebApps for Access Restrictions",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "App Service",
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-09-02T10:50:26.2745612Z",
+   "updatedBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "updatedOn": "2021-09-15T11:47:10.6224614Z"
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "AuditIfNotExists",
+     "Disabled"
+    ],
+    "defaultValue": "AuditIfNotExists"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Web/sites"
+     },
+     {
+      "field": "kind",
+      "like": "*"
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+     "type": "Microsoft.Web/sites/config",
+     "name": "web",
+     "existenceCondition": {
+      "count": {
+       "field": "Microsoft.Web/sites/config/web.ipSecurityRestrictions[*]",
+       "where": {
+        "allOf": [
+         {
+          "field": "Microsoft.Web/sites/config/web.ipSecurityRestrictions[*].action",
+          "in": [
+           "Deny"
+          ]
+         },
+         {
+          "field": "Microsoft.Web/sites/config/web.ipSecurityRestrictions[*].priority",
+          "equals": 2147483647
+         }
+        ]
+       }
+      },
+      "equals": 1
+     }
+    }
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/d59830ab-ae1d-4e4a-a6d1-c4e5110b46f4",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "d59830ab-ae1d-4e4a-a6d1-c4e5110b46f4"
+}

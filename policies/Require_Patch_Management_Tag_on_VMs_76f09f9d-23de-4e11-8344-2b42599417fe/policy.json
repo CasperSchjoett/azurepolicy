@@ -1,0 +1,59 @@
+{
+ "properties": {
+  "displayName": "Require Patch Management Tag on VMs",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "metadata": {
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-09-24T06:12:19.4236238Z",
+   "updatedBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "updatedOn": "2021-09-24T06:36:26.1418434Z",
+   "category": "Compute"
+  },
+  "parameters": {
+   "tagName": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag"
+    },
+    "allowedValues": [
+     "PatchDay"
+    ]
+   },
+   "tagValue": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Tag Value",
+     "description": "Value of the tag"
+    },
+    "allowedValues": [
+     "Thursday",
+     "Friday"
+    ]
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Compute/virtualMachines"
+     },
+     {
+      "not": {
+       "field": "[concat('tags[', parameters('tagName'), ']')]",
+       "in": "[parameters('tagValue')]"
+      }
+     }
+    ]
+   },
+   "then": {
+    "effect": "deny"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/76f09f9d-23de-4e11-8344-2b42599417fe",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "76f09f9d-23de-4e11-8344-2b42599417fe"
+}

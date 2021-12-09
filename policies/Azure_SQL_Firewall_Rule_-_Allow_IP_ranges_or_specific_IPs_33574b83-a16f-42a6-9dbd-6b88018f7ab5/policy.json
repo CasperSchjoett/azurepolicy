@@ -1,0 +1,62 @@
+{
+ "properties": {
+  "displayName": "Azure SQL Firewall Rule - Allow IP ranges or specific IPs",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "SQL",
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-08-18T07:31:37.6159492Z",
+   "updatedBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "updatedOn": "2021-08-18T11:32:32.8099141Z"
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "Audit",
+     "Disabled"
+    ],
+    "defaultValue": "Audit"
+   },
+   "listOfStartIpAddresses": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "List of Start IP Addresses for SQL",
+     "description": "List of Start IP Addresses for SQL"
+    }
+   },
+   "listOfEndIpAddresses": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "List of End IP Addresses for SQL",
+     "description": "List of End IP Addresses for SQL"
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "Microsoft.Sql/servers/firewallRules/startIpAddress",
+      "notIn": "[parameters('listOfStartIpAddresses')]"
+     },
+     {
+      "field": "Microsoft.Sql/servers/firewallRules/endIpAddress",
+      "notIn": "[parameters('listOfEndIpAddresses')]"
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/33574b83-a16f-42a6-9dbd-6b88018f7ab5",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "33574b83-a16f-42a6-9dbd-6b88018f7ab5"
+}
