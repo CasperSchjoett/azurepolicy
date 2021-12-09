@@ -1,0 +1,55 @@
+{
+ "properties": {
+  "displayName": "Ensure Azure DNS is correct and alligned with fixed location",
+  "policyType": "Custom",
+  "description": "",
+  "metadata": {
+   "category": "Network",
+   "version": "1.0",
+   "parameterScopes": {
+    "allowedLocations": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59"
+   },
+   "createdBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "createdOn": "2021-09-29T08:33:20.8780964Z",
+   "updatedBy": "2c4a494f-9355-4198-a35b-8876f68e4a43",
+   "updatedOn": "2021-09-29T13:15:56.6272469Z"
+  },
+  "parameters": {},
+  "policyDefinitions": [
+   {
+    "policyDefinitionReferenceId": "Ensure correct Azure DNS is set on VNET_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/7994d6c3-3f7e-4727-82c2-9a888d0b79c7",
+    "parameters": {
+     "dnsSettings": {
+      "value": []
+     }
+    },
+    "groupNames": [
+     "DNS"
+    ]
+   },
+   {
+    "policyDefinitionReferenceId": "Ensure location is correct and align with Azure DNS_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policyDefinitions/d8daba14-f617-4ac6-903c-e078213960c8",
+    "parameters": {
+     "allowedLocations": {
+      "value": [
+       "westeurope"
+      ]
+     }
+    },
+    "groupNames": [
+     "DNS"
+    ]
+   }
+  ],
+  "policyDefinitionGroups": [
+   {
+    "name": "DNS"
+   }
+  ]
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/302abf1b-c8bf-4e94-af5b-30eac33e9f59/providers/Microsoft.Authorization/policySetDefinitions/ed7c13f7119b4d8f9f3e9303",
+ "type": "Microsoft.Authorization/policySetDefinitions",
+ "name": "ed7c13f7119b4d8f9f3e9303"
+}
